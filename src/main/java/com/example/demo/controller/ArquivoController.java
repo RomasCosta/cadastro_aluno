@@ -36,9 +36,10 @@ public class ArquivoController {
     public Arquivo uplArquivo(@RequestParam("file") MultipartFile file) {
         String nomeArquivo = arquivoService.SalvarArquivo(file);
         
+        //por algum motivo o meu codigo não estava colocando uma barra entre downloadArquivo e o nome do arquivo de upload.
         String caminhoArquivo = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/arquivos/downloadArquivo")
-                .path(nomeArquivo)
+                .path("/arquivos/downloadArquivo/")
+                .path(nomeArquivo)                 
                 .toUriString();
         
         return new Arquivo(nomeArquivo, caminhoArquivo, file.getContentType(), file.getSize());

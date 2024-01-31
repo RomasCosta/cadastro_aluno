@@ -27,11 +27,12 @@ import org.springframework.web.multipart.MultipartFile;
  * @author romar
  */
 @Service
-@Slf4j
+@Slf4j//cria variavel para logar erros - var log
 public class ArquivoService {
     
     private final Path fileStorageLocation;
     
+    //cria a pasta upload do path descrita no properties caso não exista
     public ArquivoService(ArquivoStorageProperties arquivoStorageProperties){
         this.fileStorageLocation = Paths.get(arquivoStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
@@ -42,6 +43,7 @@ public class ArquivoService {
         }
     }
     
+    //upload do arquivo
     public String SalvarArquivo(MultipartFile file) {
         String nomeArquivo = StringUtils.cleanPath(file.getOriginalFilename());
         
@@ -58,6 +60,7 @@ public class ArquivoService {
         }
     }
     
+    //download de arquivo
     public Resource carregarArquivo(String nomeArquivo) {
         try {
             Path filePath = this.fileStorageLocation.resolve(nomeArquivo).normalize();
@@ -68,10 +71,11 @@ public class ArquivoService {
                 throw new ArquivoNaoEncontradoException("Arquivo não encontrado");
             }
         } catch (Exception e) {
-            throw new ArquivoNaoEncontradoException("Arquivo não encontrado", e);
+            throw new ArquivoNaoEncontradoException("Arquivo não encontrado");
         }
     }
     
+    //método para pegar a extensão do arquivo
     public String getContentType(HttpServletRequest request, Resource resource) {
         String contentType = null;
         try {
