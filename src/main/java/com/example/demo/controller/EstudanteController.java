@@ -47,7 +47,7 @@ public class EstudanteController {
     
     @PutMapping("/{id}")
     public ResponseEntity<Estudante> atualizarEstudante(@PathVariable Long id, @RequestBody Estudante estudante) {
-        return estudanteService.atualizarEstudante(estudante);
+        return estudanteService.atualizarEstudante(id, estudante);
     }
     
     @DeleteMapping("/{id}")
