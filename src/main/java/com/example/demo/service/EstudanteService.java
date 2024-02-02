@@ -5,7 +5,11 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Estudante;
+import com.example.demo.entity.Livro;
 import com.example.demo.repository.EstudanteRepository;
+import com.example.demo.repository.LivroRepository;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +28,7 @@ public class EstudanteService {
     
     //private static Map<Long, Estudante> listaEstudantes = new HashMap<>();
     private EstudanteRepository estudanteRepository;
+    private LivroRepository livroRepository;
     
     public ResponseEntity<Estudante> buscarEstudantePorId(Long id) {
         if (estudanteRepository.existsById(id)) {
@@ -37,7 +42,13 @@ public class EstudanteService {
     }
     
     public ResponseEntity<Estudante> cadastrarEstudante(Estudante estudante) {
+        Set<Livro> livros = estudante.getLivros();
+        estudante.setLivros(new HashSet<>());
         Estudante estudanteSalvo = estudanteRepository.save(estudante);
+        for(Livro livro : livros) {
+            livro.setEstudante(Estudante.builder().id(estudante.getId()).build());
+            estudante.getLivros().add(livroRepository.save(livro));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(estudanteSalvo);
     }
     

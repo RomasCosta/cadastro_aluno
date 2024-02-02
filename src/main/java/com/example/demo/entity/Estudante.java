@@ -5,12 +5,14 @@
 package com.example.demo.entity;
 
 import java.time.LocalDate;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,4 +43,7 @@ public class Estudante {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
+    
+    @OneToMany(mappedBy = "estudante", cascade = CascadeType.ALL, orphanRemoval = true)//orphanRemoval vai removar livros cadastrados junto com o estudante que  tiver likado a ele
+    private Set<Livro> livros;
 }
