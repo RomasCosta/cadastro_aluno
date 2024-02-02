@@ -4,16 +4,11 @@
  */
 package com.example.demo.entity;
 
-import java.time.LocalDate;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,24 +16,16 @@ import lombok.NoArgsConstructor;
  *
  * @author romar
  */
-
-//lombok permite usar anotações para construtor, getters, setters...
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
-public class Estudante {
+public class Curso {
     
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String nome;
-    private String email;
-    private LocalDate dataNascimento;
     
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-    private Endereco endereco;
 }
